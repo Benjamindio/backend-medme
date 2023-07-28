@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer')
 async function  medFinder(MedName) {
 
 // Launch the browser and open a new blank page
-    const browser = await puppeteer.launch({headless: false})
+    const browser = await puppeteer.launch({headless: 'new'})
     const page = await browser.newPage();
 // Navigate the page to a URL
     await page.goto('https://www.pharma-gdd.com/')
@@ -15,7 +15,7 @@ await page.type('.search-input', MedName);
 await page.click('.material-icons-outlined')
 
 // Wait Page to load
-await page.waitForNavigation({waitUntil: 'networkidle0', timeout: 60000 })
+await page.waitForNavigation({waitUntil: 'load',timeout:0})
 
 // Select all cards and return 5 firsts results
 const data = []
@@ -23,7 +23,7 @@ const searchResultSelector = 'div[class="card"]'
 await page.waitForSelector(searchResultSelector)
 
 
-for (let i = 0; i < 5; i ++) {
+for (let i = 0; i < 2; i ++) {
     const searchResults = await page.$$('div[class="card"]')
     if(searchResults[i]){
     await searchResults[i].click();
@@ -34,7 +34,12 @@ for (let i = 0; i < 5; i ++) {
         let price = document.querySelector('.price').innerText;
         let posologie = document.querySelector('.description').innerText;
         let description = document.querySelector('#Présentation').innerText;
-        return {title, image, price, posologie, description}
+        let type = document.querySelectorAll('[itemprop="name"]')[1].innerText
+        let need_prescription= false
+        if(type ==='Médicaments') {
+            need_prescription= Math.random() <0.25;
+        }
+        return {title, image, price, posologie, description, type,need_prescription}
  })
  data.push(productData);};
  
