@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema({
     lastname:  {type: String, default: ''},
     email:  {type: String, default: ''},
     adress : {type: String, default: ''},
-    phoneNumber : Number,
+    phoneNumber : String,
     generatedCode: String,
     token : String,
     healthCard : healthCardSchema,

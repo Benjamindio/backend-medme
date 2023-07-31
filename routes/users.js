@@ -25,28 +25,21 @@ router.post('/login', (req, res) => {
     return;
   }
 
-  User.findOne({ phoneNumber: req.body.phoneNumber  }).then(data => { 
+  User.findOne({ phoneNumber: req.body.phoneNumber  }).then(data => { console.log(data)
     if (data === null) { 
-      
+      console.log('User doesn t exist')
       const generatedCode = generateVerificationCode();
       verificationCodes[req.body.phoneNumber] = generatedCode; 
 
       res.json({ result: true, generatedCode });
-    } else {
-      res.json({ result: false, error: 'User already exists' })
-
-    } if (data) {
-
-      //const generatedCode = generateVerificationCode()
-      //verificationCodes[req.body.phoneNumber] = generatedCode;
+      
+    } else if (data) {
+      console.log('User exist')
+      const generatedCode = generateVerificationCode()
+      verificationCodes[req.body.phoneNumber] = generatedCode;
 
       res.json({ result: true, generatedCode })
-
-    } else {
-
-      res.json({ result: false, error: 'Utilisateur non enregistré' })
-
-    }
+    } 
   })
     //Le code de vérification est généré et stocké temporairement pour que l'utilisateur puisse le recevoir et le saisir lors de la vérification ultérieure
     console.log(verificationCodes)
@@ -65,9 +58,17 @@ router.post('/verify', (req, res) => {
 
   if (storedVerificationCode === generatedCode) {
 
-    const hash = bcrypt.hashSync(req.body.generatedCode, 10)
+    User.findOne({ phoneNumber: req.body.phoneNumber  }).then(data => {
+
+      if (data) {
+
+        res.json ({ result: true, token: data.token, message: 'Bon retour'})
+
+      } else {
+
+      const hash = bcrypt.hashSync(req.body.generatedCode, 10)
       
-    const newUser = new User({
+      const newUser = new User({
        generatedCode: hash,
        token: uid2(32),
        phoneNumber: req.body.phoneNumber,
@@ -89,6 +90,9 @@ router.post('/verify', (req, res) => {
    newUser.save().then(newDoc => {
     res.json({ result: true, token: newDoc.token , message: 'Connexion réussie !' })
   });
+   }
+    })
+
  // Supprimer le code de vérification après l'enregistrement de l'utilisateur
     delete verificationCodes[phoneNumber];
     console.log(verificationCodes)
@@ -136,14 +140,5 @@ router.put('/updateUserInfo', (req, res) => {
     })
   })
   
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
