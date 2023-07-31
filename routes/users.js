@@ -14,7 +14,7 @@ function generateVerificationCode() {
   return Math.floor(10000 + Math.random() * 90000).toString() // créer un code aléatoire de 5 chiffres compris entre 10000 et 99999.
 }
 
-router.post('/signup', (req, res) => {
+router.post('/login', (req, res) => {
   if (!checkBody(req.body, ['phoneNumber'])) { 
     res.json({ result: false, error: 'Missing or empty fields' })
     return;
@@ -29,17 +29,28 @@ router.post('/signup', (req, res) => {
     if (data === null) { 
       
       const generatedCode = generateVerificationCode();
-
       verificationCodes[req.body.phoneNumber] = generatedCode; 
 
       res.json({ result: true, generatedCode });
     } else {
       res.json({ result: false, error: 'User already exists' })
+
+    } if (data) {
+
+      //const generatedCode = generateVerificationCode()
+      //verificationCodes[req.body.phoneNumber] = generatedCode;
+
+      res.json({ result: true, generatedCode })
+
+    } else {
+
+      res.json({ result: false, error: 'Utilisateur non enregistré' })
+
     }
+  })
     //Le code de vérification est généré et stocké temporairement pour que l'utilisateur puisse le recevoir et le saisir lors de la vérification ultérieure
     console.log(verificationCodes)
   });
-});
 
 router.post('/verify', (req, res) => {
   const { phoneNumber, generatedCode } = req.body
@@ -62,25 +73,35 @@ router.post('/verify', (req, res) => {
        phoneNumber: req.body.phoneNumber,
        firstname: req.body.firstname,
        lastname: req.body.lastname,
-       email: req.body.email
+       email: req.body.email,
+       adress : req.body.adress,
+       healthCard: {
+          dateOfBirth: null,
+          bloodGroup: '',
+          size: 0,
+          weight: 0,
+          allergies: [],
+          treatment: [],
+          hasHealthCard: false
+       }
    });
 
    newUser.save().then(newDoc => {
     res.json({ result: true, token: newDoc.token , message: 'Connexion réussie !' })
   });
-
  // Supprimer le code de vérification après l'enregistrement de l'utilisateur
     delete verificationCodes[phoneNumber];
-    
+    console.log(verificationCodes)
   } else {
     res.json({ result: false, error: 'Code de vérification incorrect.' })
   }
 });
 
 
-router.post('/updateUserInfo', (req, res) => {
+router.put('/updateUserInfo', (req, res) => {
 
-  const { phoneNumber, firstname, lastname, email} = req.body
+  const { phoneNumber, firstname, lastname, email, adress, dateOfBirth,
+         bloodGroup, size, weight, allergies, treatment, hasHealthCard} = req.body
 
   if ( !phoneNumber ) {
     res.json ({ result: false, error: 'Missing or empty fields'})
@@ -94,6 +115,14 @@ router.post('/updateUserInfo', (req, res) => {
         firstname: firstname,
         lastname: lastname,
         email: email,
+        adress: adress,
+       'healthCard.dateOfBirth': dateOfBirth,
+       'healthCard.bloodGroup': bloodGroup,  
+       'healthCard.size': size,  
+       'healthCard.weight': weight,  
+       'healthCard.allergies': allergies,        
+       'healthCard.treatment': treatment,  
+       'healthCard.hasHealthCard': hasHealthCard,  
       },
     }
   )
