@@ -31,14 +31,14 @@ router.post('/login', (req, res) => {
       const generatedCode = generateVerificationCode();
       verificationCodes[req.body.phoneNumber] = generatedCode; 
 
-      res.json({ result: true, generatedCode });
+      res.json({ result: true,userStatus:'dontExist', generatedCode });
       
     } else if (data) {
       console.log('User exist')
       const generatedCode = generateVerificationCode()
       verificationCodes[req.body.phoneNumber] = generatedCode;
 
-      res.json({ result: true, generatedCode })
+      res.json({ result: true,userStatus:'existing', generatedCode })
     } 
   })
     //Le code de vérification est généré et stocké temporairement pour que l'utilisateur puisse le recevoir et le saisir lors de la vérification ultérieure
@@ -106,7 +106,7 @@ router.put('/updateUserInfo', (req, res) => {
 
   const { phoneNumber, firstname, lastname, email, adress, dateOfBirth,
          bloodGroup, size, weight, allergies, treatment, hasHealthCard} = req.body
-
+  console.log(req.body)
   if ( !phoneNumber ) {
     res.json ({ result: false, error: 'Missing or empty fields'})
     return
@@ -139,6 +139,12 @@ router.put('/updateUserInfo', (req, res) => {
       }
     })
   })
-  
+  //NE PAS UTILISER SAUF POUR DELETE TOUS LES USERS CREE
+  /*router.delete('/delete',(req,res) => {
+    User.deleteMany({})
+    .then(() => {
+      res.json({result:true})
+    })
+  })*/
 
 module.exports = router;

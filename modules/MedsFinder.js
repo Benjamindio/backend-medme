@@ -6,7 +6,7 @@ async function  medFinder(MedName) {
     const browser = await puppeteer.launch({headless: 'new'})
     const page = await browser.newPage();
 // Navigate the page to a URL
-    await page.goto('https://www.pharma-gdd.com/')
+    await page.goto(process.env.URLSCRAPPED)
 // Set screen size
     await page.setViewport({width: 1080, height: 1024})
 

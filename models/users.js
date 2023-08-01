@@ -25,6 +25,7 @@ const userSchema = mongoose.Schema({
     generatedCode: String,
     token : String,
     healthCard : healthCardSchema,
+    orders : { type: mongoose.Schema.Types.ObjectId, ref: 'orders'}
 
 });    
 
