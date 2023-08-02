@@ -1,16 +1,17 @@
-const puppeteer = require('puppeteer-core')
-const chromium = require('chrome-aws-lambda')
-async function  medFinder(MedName) {
 
+const  puppeteer = require('puppeteer')
+
+async function  medFinder(MedName) {
+    
 // Launch the browser and open a new blank page
    // const browser = await puppeteer.launch({headless: 'new'})
-   const browser = await chromium.puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath,
-    headless: chromium.headless,
-    ignoreHTTPSErrors: true,
-  });
+
+
+   const browser = await puppeteer.launch({headless: 'new'})
+
+
+
+   
     const page = await browser.newPage();
 // Navigate the page to a URL
     await page.goto(process.env.URLSCRAPPED)
