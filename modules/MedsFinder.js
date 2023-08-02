@@ -23,7 +23,7 @@ const searchResultSelector = 'div[class="card"]'
 await page.waitForSelector(searchResultSelector)
 
 
-for (let i = 0; i < 2; i ++) {
+for (let i = 0; i < 5; i ++) {
     const searchResults = await page.$$('div[class="card"]')
     if(searchResults[i]){
     await searchResults[i].click();

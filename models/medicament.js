@@ -7,6 +7,7 @@ const medicamentSchema = mongoose.Schema({
     type:String,
     categorie:String,
     need_prescription: Boolean,
+    image:String,
     
 })
 

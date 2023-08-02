@@ -37,22 +37,27 @@ router.post('/', async (req,res) => {
                         type: med.type,
                         categorie: categorie,
                         need_prescription:med.need_prescription,
+                        image:med.image,
                     })
                     const savedMedicament = await newMedicaments.save()
                         console.log('Medicament saved')
-                        listOfMedicament.push(savedMedicament)
+                        listOfMedicament.push({medName:savedMedicament.name, medCategorie:savedMedicament.categorie})
                     
                 } else { // si oui push la donnée présente en BDD dans le res.json
-                    listOfMedicament.push(searchForSimilarities)
+                    listOfMedicament.push({medName:searchForSimilarities.name, medCategorie:searchForSimilarities.categorie})
                 }}
-                res.json({result:true, medicament:listOfMedicament})
+                res.json({result:true, medicaments:listOfMedicament})
         } else {
             res.json({result:false })
         }
     } else {
         Medicament.find({name:{$regex: new RegExp(req.body.name,'gi')}}) // si similitude en BDD , renvoie directement les données en BDD
         .then(medicaments => {
-            res.json({result:true, medicaments:medicaments})
+            const listOfMedicament = []
+            for (let med of medicaments) {
+                listOfMedicament.push({medName:med.name, medCategorie:med.categorie})
+            }
+            res.json({result:true, medicaments:listOfMedicament})
         })
         
     }
@@ -98,23 +103,27 @@ router.post('/categorie', async (req,res) => {
                             type: med.type,
                             categorie: categorie,
                             need_prescription:med.need_prescription,
+                            image:med.image,
                         })
                         const savedMedicament = await newMedicaments.save()
                             console.log('Medicament saved')
-                            listOfMedicament.push(savedMedicament)
+                            listOfMedicament.push({medName:savedMedicament.name, medImage:savedMedicament.image})
                     }
                 } else { // si oui push la donnée présente en BDD dans le res.json
-                    listOfMedicament.push(searchForSimilarities)
+                    listOfMedicament.push({medName:searchForSimilarities.name, mmedImage:searchForSimilarities.image})
                 }}
-                res.json({result:true, medicament:listOfMedicament})
+                res.json({result:true, medicaments:listOfMedicament})
         } else {
             res.json({result:false })
         }
     } else {
         Medicament.find({name:{$regex: new RegExp(req.body.name,'gi')}, categorie:req.body.categorie}) // si similitude en BDD , renvoie directement les données en BDD
         .then(medicaments => {
-            console.log(req.body.categorie)
-            res.json({result:true, medicaments:medicaments})
+            const listOfMedicament = []
+            for (let med of medicaments) {
+                listOfMedicament.push({medName:med.name, medImage:med.image})
+            }
+            res.json({result:true, medicaments:listOfMedicament})
         })
         
     }
