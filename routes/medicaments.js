@@ -59,7 +59,7 @@ router.post('/', async (req,res) => {
                         listOfMedicament.push({medName:savedMedicament.name, medCategorie:savedMedicament.categorie, product_id:savedMedicament.product_id})
                     
                 } else { // si oui push la donnée présente en BDD dans le res.json
-                    listOfMedicament.push({medName:searchForSimilarities.name, medCategorie:searchForSimilarities.categorie})
+                    listOfMedicament.push({medName:searchForSimilarities.name, medCategorie:searchForSimilarities.categorie,product_id:searchForSimilarities.product_id})
                 }}
                 res.json({result:true, medicaments:listOfMedicament})
         } else {
@@ -70,7 +70,7 @@ router.post('/', async (req,res) => {
         .then(medicaments => {
             const listOfMedicament = []
             for (let med of medicaments) {
-                listOfMedicament.push({medName:med.name, medCategorie:med.categorie})
+                listOfMedicament.push({medName:med.name, medCategorie:med.categorie, product_id:med.product_id})
             }
             res.json({result:true, medicaments:listOfMedicament})
         })
