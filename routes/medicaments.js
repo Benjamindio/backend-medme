@@ -5,6 +5,20 @@ const {medFinder} = require('../modules/MedsFinder')
 const Medicament = require('../models/medicament')
 
 
+
+router.get('/:name', (req, res) => {
+  
+    if (!req.params.name) {
+      res.json({ result: false, error: 'Not found' });
+    }
+  
+    Medicament.find({ name: { $regex: new RegExp(req.params.name, 'gi') } })
+      .then(data => {
+         res.json({ result: true, medicaments: data });
+      })
+  });
+
+
 // cherche en BDD les médicaments et si non existant va les récupérer 
 router.post('/', async (req,res) => {
     if (!checkBody(req.body, ['name'])) {
