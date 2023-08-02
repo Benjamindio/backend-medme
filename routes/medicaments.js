@@ -12,7 +12,7 @@ router.get('/:name', (req, res) => {
       res.json({ result: false, error: 'Not found' });
     }
   
-    Medicament.find({ name: { $regex: new RegExp(req.params.name, 'gi') } })
+    Medicament.findOne({ name: { $regex: new RegExp(req.params.name, 'gi') } })
       .then(data => {
          res.json({ result: true, medicaments: data });
       })
