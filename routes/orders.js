@@ -16,19 +16,20 @@ router.post('/add',  (req, res) => {
     })
     const productId = req.body.productId
     newOrder.save().then((newDoc) => {
-        console.log(newDoc._id)
+       // console.log(newDoc._id)
         Medicament.find({}).then(allMed => {
-            const orderedMed = allMed.filter(e => productId.includes(e.name)).map(e => e._id)
+           // console.log(allMed)
+            const orderedMed = allMed.filter(e => productId.includes(e.product_id)).map(e => e._id)
         console.log(orderedMed)
         Order.findByIdAndUpdate(newDoc._id, {$push:{product:{$each :orderedMed}}})
         .then(() => {
             User.findByIdAndUpdate(req.body.userId,
                 { $push: {orders: newOrder._id}})
                 .then(() => {
-                    Order.findOne({product:req.body.productId}) 
+                    Order.findById(newDoc._id) 
                     .populate('product')
                     .then(data => {
-                        console.log(data)
+                        
                         res.json({result:true,newOrder:data})
             })
         })

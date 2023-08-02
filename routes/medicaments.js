@@ -3,16 +3,16 @@ var router = express.Router();
 const {checkBody} = require('../modules/checkBody')
 const {medFinder} = require('../modules/MedsFinder')
 const Medicament = require('../models/medicament')
+const uid2 = require('uid2');
 
 
-
-router.get('/:name', (req, res) => {
+router.get('/:product_id', (req, res) => {
   
-    if (!req.params.name) {
+    if (!req.params.product_id) {
       res.json({ result: false, error: 'Not found' });
     }
   
-    Medicament.findOne({ name: { $regex: new RegExp(req.params.name, 'gi') } })
+    Medicament.findOne({ product_id: { $regex: new RegExp(req.params.product_id, 'gi') } })
       .then(data => {
          res.json({ result: true, medicaments: data });
       })
@@ -52,10 +52,11 @@ router.post('/', async (req,res) => {
                         categorie: categorie,
                         need_prescription:med.need_prescription,
                         image:med.image,
+                        product_id:uid2(10)
                     })
                     const savedMedicament = await newMedicaments.save()
                         console.log('Medicament saved')
-                        listOfMedicament.push({medName:savedMedicament.name, medCategorie:savedMedicament.categorie})
+                        listOfMedicament.push({medName:savedMedicament.name, medCategorie:savedMedicament.categorie, product_id:savedMedicament.product_id})
                     
                 } else { // si oui push la donnée présente en BDD dans le res.json
                     listOfMedicament.push({medName:searchForSimilarities.name, medCategorie:searchForSimilarities.categorie})
@@ -118,6 +119,7 @@ router.post('/categorie', async (req,res) => {
                             categorie: categorie,
                             need_prescription:med.need_prescription,
                             image:med.image,
+                            product_id:uid2(10)
                         })
                         const savedMedicament = await newMedicaments.save()
                             console.log('Medicament saved')
