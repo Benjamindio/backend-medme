@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Pharmacie = require('../models/pharmacie')
 const geolib = require('geolib');
-const { list } = require('postcss');
+
 
 router.post('/inArea', (req,res) => {
     let listOfPharmacie = []
