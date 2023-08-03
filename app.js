@@ -9,8 +9,11 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var medicamentsRouter = require('./routes/medicaments')
 var ordersRouter = require('./routes/orders')
-
 var app = express();
+
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
+
 require('./models/connection'); // creer la base de donnee et connection string
 app.use(logger('dev'));
 app.use(express.json());
