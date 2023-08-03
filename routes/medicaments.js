@@ -56,10 +56,10 @@ router.post('/', async (req,res) => {
                     })
                     const savedMedicament = await newMedicaments.save()
                         console.log('Medicament saved')
-                        listOfMedicament.push({medName:savedMedicament.name, medCategorie:savedMedicament.categorie, product_id:savedMedicament.product_id, price:savedMedicament.price, image:savedMedicament.image})
+                        listOfMedicament.push({medName:savedMedicament.name, medCategorie:savedMedicament.categorie, product_id:savedMedicament.product_id, medPrice:savedMedicament.price, medImage:savedMedicament.image})
                     
                 } else { // si oui push la donnée présente en BDD dans le res.json
-                    listOfMedicament.push({medName:searchForSimilarities.name, medCategorie:searchForSimilarities.categorie,product_id:searchForSimilarities.product_id, price:searchForSimilarities.price, image:searchForSimilarities.image})
+                    listOfMedicament.push({medName:searchForSimilarities.name, medCategorie:searchForSimilarities.categorie,product_id:searchForSimilarities.product_id, medPrice:searchForSimilarities.price, medImage:searchForSimilarities.image})
                 }}
                 res.json({result:true, medicaments:listOfMedicament})
         } else {
@@ -70,7 +70,7 @@ router.post('/', async (req,res) => {
         .then(medicaments => {
             const listOfMedicament = []
             for (let med of medicaments) {
-                listOfMedicament.push({medName:med.name, medCategorie:med.categorie, product_id:med.product_id,price:med.price, image:med.image})
+                listOfMedicament.push({medName:med.name, medCategorie:med.categorie, product_id:med.product_id,medPrice:med.price, medImage:med.image})
             }
             res.json({result:true, medicaments:listOfMedicament})
         })
@@ -123,10 +123,10 @@ router.post('/categorie', async (req,res) => {
                         })
                         const savedMedicament = await newMedicaments.save()
                             console.log('Medicament saved')
-                            listOfMedicament.push({medName:savedMedicament.name, medImage:savedMedicament.image, price:savedMedicament.price, categorie:savedMedicament.categorie, product_id:savedMedicament.product_id})
+                            listOfMedicament.push({medName:savedMedicament.name, medImage:savedMedicament.image, medPrice:savedMedicament.price, categorie:savedMedicament.categorie, product_id:savedMedicament.product_id})
                     }
                 } else { // si oui push la donnée présente en BDD dans le res.json
-                    listOfMedicament.push({medName:searchForSimilarities.name, mmedImage:searchForSimilarities.image, price:searchForSimilarities.price, categorie:searchForSimilarities.categorie, product_id:searchForSimilarities.product_id})
+                    listOfMedicament.push({medName:searchForSimilarities.name, medImage:searchForSimilarities.image, medPrice:searchForSimilarities.price, categorie:searchForSimilarities.categorie, product_id:searchForSimilarities.product_id})
                 }}
                 res.json({result:true, medicaments:listOfMedicament})
         } else {
@@ -137,7 +137,7 @@ router.post('/categorie', async (req,res) => {
         .then(medicaments => {
             const listOfMedicament = []
             for (let med of medicaments) {
-                listOfMedicament.push({medName:med.name, medImage:med.image, price:med.price, categorie:med.categorie, product_id:med.product_id})
+                listOfMedicament.push({medName:med.name, medImage:med.image, medPrice:med.price, categorie:med.categorie, product_id:med.product_id})
             }
             res.json({result:true, medicaments:listOfMedicament})
         })
