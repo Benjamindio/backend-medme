@@ -4,7 +4,7 @@ const Pharmacie = require('../models/pharmacie')
 const geolib = require('geolib')
 
 router.get('/inArea', (req,res) => {
-    Pharmacie.find({"Nom Officiel Commune":req.body.commune})
+    Pharmacie.find({"Nom Officiel Commune":req.body.city})
     .then(
         data => {
             const listOfPharmacie = []
