@@ -9,6 +9,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var medicamentsRouter = require('./routes/medicaments')
 var ordersRouter = require('./routes/orders')
+var pharmacieRouter = require('./routes/pharmacie')
+
 var app = express();
 
 const fileUpload = require('express-fileupload');
@@ -25,5 +27,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/medicaments', medicamentsRouter)
 app.use('/orders', ordersRouter)
+app.use('/pharmacies', pharmacieRouter)
 
 module.exports = app;
