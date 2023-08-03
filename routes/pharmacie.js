@@ -22,12 +22,15 @@ router.get('/inArea', (req,res) => {
 
                         listOfPharmacie.push({pharmacieName:pharmacie['Raison sociale'], adresse,coordinates, isAvailable, pharmacieNumber:pharmacie['Téléphone']})
                 } 
-                else { res.json({result:false, message:'Aucune pharmacie'})}
               
             }
             
 
             res.json({result:true,listOfPharmacie})
+            if(!listOfPharmacie){
+                res.json({result:false, message:'Aucune pharmacie'})
+            }
+            
         }
     )
 })
