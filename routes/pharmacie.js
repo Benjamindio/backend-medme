@@ -33,15 +33,29 @@ router.post('/inArea', (req,res) => {
             
         }
     ).then(()=> {
-        if(listOfPharmacie.length > 10){
+        
+        if(listOfPharmacie.length > 100){
+            listOfPharmacie = listOfPharmacie.slice(0,100)
+            let reduceListOfPharmacie = []
+            try{
+            for(let pharmacie of listOfPharmacie) {
+                if(geolib.isPointWithinRadius(
+                    {latitude:req.body.latitude, longitude:req.body.longitude}, 
+                    {latitude:pharmacie.coordinates.latitude, longitude:pharmacie.coordinates.longitude},1000)) {
+                        reduceListOfPharmacie.push(pharmacie)
+                        console.log(reduceListOfPharmacie)
+                    }
+            }
             
-            listOfPharmacie = listOfPharmacie.slice(0,10)
-            console.log(listOfPharmacie.length)
-            
+        }catch(error) {
+            console.log(error)
         }
-            }).then(() => {
-                res.json({result:true,listOfPharmacie})
-            })
+            listOfPharmacie = reduceListOfPharmacie
+        }
+    }).then(() => {
+            res.json({result:true,listOfPharmacie})
+        })
+            
             
         
         

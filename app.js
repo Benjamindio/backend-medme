@@ -12,11 +12,15 @@ var ordersRouter = require('./routes/orders')
 var pharmacieRouter = require('./routes/pharmacie')
 
 var app = express();
+require('./models/connection');
+const cors = require('cors');
 
 const fileUpload = require('express-fileupload');
-app.use(fileUpload());
 
-require('./models/connection'); // creer la base de donnee et connection string
+
+ // creer la base de donnee et connection string
+app.use(fileUpload());
+ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,5 +32,5 @@ app.use('/users', usersRouter);
 app.use('/medicaments', medicamentsRouter)
 app.use('/orders', ordersRouter)
 app.use('/pharmacies', pharmacieRouter)
-
+console.log("ici")
 module.exports = app;
