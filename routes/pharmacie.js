@@ -33,9 +33,9 @@ router.post('/inArea', (req,res) => {
             
         }
     ).then(()=> {
-        if(listOfPharmacie.length > 100){
+        if(listOfPharmacie.length > 10){
             
-            listOfPharmacie = listOfPharmacie.slice(0,100)
+            listOfPharmacie = listOfPharmacie.slice(0,10)
             console.log(listOfPharmacie.length)
             
         }
