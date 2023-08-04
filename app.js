@@ -12,6 +12,10 @@ var ordersRouter = require('./routes/orders')
 var pharmacieRouter = require('./routes/pharmacie')
 
 var app = express();
+
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
+
 require('./models/connection'); // creer la base de donnee et connection string
 app.use(logger('dev'));
 app.use(express.json());
