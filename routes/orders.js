@@ -23,7 +23,7 @@ router.post('/add',  (req, res) => {
         console.log(orderedMed)
         Order.findByIdAndUpdate(newDoc._id, {$push:{product:{$each :orderedMed}}})
         .then(() => {
-            User.findByIdAndUpdate(req.body.userId,
+            User.findOneAndUpdate({token:req.body.token},
                 { $push: {orders: newOrder._id}})
                 .then(() => {
                     Order.findById(newDoc._id) 
