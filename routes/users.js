@@ -75,7 +75,7 @@ router.post('/verify', (req, res) => {
        firstname: req.body.firstname,
        lastname: req.body.lastname,
        email: req.body.email,
-       adress : req.body.adress,
+       adress : '',
        healthCard: {
           dateOfBirth: null,
           bloodGroup: '',
