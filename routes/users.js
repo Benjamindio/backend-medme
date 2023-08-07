@@ -147,4 +147,12 @@ router.put('/updateUserInfo', (req, res) => {
     })
   })*/
 
+  router.get('/getUserInfo/:token' , (req,res) => {
+    User.findOne({token:req.params.token})
+    .then(data => {
+      console.log(data)
+      res.json({result:true, userInfo:{email:data.email, hasHealthCard: data.hasHealthCard, firstName:data.firstname,lastname:data.lastname,healthCard:data.healthCard, adresse:data.adress,}})
+    })
+  })
+
 module.exports = router;
