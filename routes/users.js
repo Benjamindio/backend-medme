@@ -139,6 +139,7 @@ router.put('/updateUserInfo', (req, res) => {
       }
     })
   })
+
   //NE PAS UTILISER SAUF POUR DELETE TOUS LES USERS CREE
   /*router.delete('/delete',(req,res) => {
     User.deleteMany({})
@@ -146,5 +147,20 @@ router.put('/updateUserInfo', (req, res) => {
       res.json({result:true})
     })
   })*/
+
+  router.get('/getUserOrders/:token', (req,res)=> {
+    User.findOne({token:req.params.token})
+    .populate('orders')
+    .then(data => {
+      if (data){
+        res.json({result: true, orders: data});
+      }else{
+        res.json({result: false, message : 'no orders saved'});
+      }
+    });
+  });
+
+
+
 
 module.exports = router;
