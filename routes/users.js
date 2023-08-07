@@ -4,6 +4,7 @@ var router = express.Router();
 
 const { checkBody } = require('../modules/checkBody'); 
 const User = require('../models/users'); 
+const Order = require('../models/orders');
 const uid2 = require('uid2'); 
 const bcrypt = require('bcrypt'); 
 
@@ -150,11 +151,13 @@ router.put('/updateUserInfo', (req, res) => {
 
   router.get('/getUserOrders/:token', (req,res)=> {
     User.findOne({token:req.params.token})
-    .populate('orders')
-    .populate('product')
+    .populate({
+      path:'orders',
+      populate:{path:'product'}
+  })
     .then(data => {
       if (data){
-        res.json({result: true, orders: data.orders});
+          res.json({result: true, orders: data});
       }else{
         res.json({result: false, message : 'no orders saved'});
       }
