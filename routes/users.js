@@ -151,9 +151,10 @@ router.put('/updateUserInfo', (req, res) => {
   router.get('/getUserOrders/:token', (req,res)=> {
     User.findOne({token:req.params.token})
     .populate('orders')
+    .populate('product')
     .then(data => {
       if (data){
-        res.json({result: true, orders: data});
+        res.json({result: true, orders: data.orders});
       }else{
         res.json({result: false, message : 'no orders saved'});
       }
