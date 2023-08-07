@@ -35,7 +35,7 @@ router.post('/inArea', (req,res) => {
     ).then(()=> {
         
         if(listOfPharmacie.length > 100){
-            listOfPharmacie = listOfPharmacie.slice(0,100)
+            
             let reduceListOfPharmacie = []
             try{
             for(let pharmacie of listOfPharmacie) {

@@ -67,7 +67,7 @@ router.post('/verify', (req, res) => {
       } else {
 
       const hash = bcrypt.hashSync(req.body.generatedCode, 10)
-      
+      console.log(req.body.adress)
       const newUser = new User({
        generatedCode: hash,
        token: uid2(32),
