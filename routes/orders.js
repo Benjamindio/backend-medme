@@ -7,18 +7,32 @@ const Medicament = require('../models/medicament')
 
 
 router.post('/add',  (req, res) => {
+    const quantities = []
+    const id = []
+   for (let i = 0 ; i < req.body.cart.length ; i++) {
+    console.log(req.body.cart[i])
+        quantities.push(...Object.values(req.body.cart[i]))
+        id.push(...Object.keys(req.body.cart[i]))
+
+   }
+   
+
     const newOrder = new Order({
         date: req.body.date,
         total: req.body.total, 
         status: req.body.status,
         isPaid: req.body.isPaid, 
-        product:[]
+        product:[],
+        quantity: quantities
     })
-    const productId = req.body.productId
+    
+    const productId = id
+   
+   
     newOrder.save().then((newDoc) => {
        // console.log(newDoc._id)
         Medicament.find({}).then(allMed => {
-           // console.log(allMed)
+  
         const orderedMed = allMed.filter(e => productId.includes(e.product_id)).map(e => e._id)
         console.log(orderedMed)
         Order.findByIdAndUpdate(newDoc._id, {$push:{product:{$each :orderedMed}}})
