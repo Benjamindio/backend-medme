@@ -149,6 +149,15 @@ router.post('/categorie', async (req,res) => {
     }    
 })
 
-
+router.post('/suggestion', (req,res) => {
+    Medicament.findOne({name:{$regex: new RegExp(req.body.name, 'gi')}})
+    .then(data => {
+        if(data) {
+            res.json({result: true, medicament:{name:data.name, price:data.price,medImage:data.image}})
+        } else {
+            res.json({result:false, error: "no meds found"})
+        }
+    })
+})
 
 module.exports = router;
