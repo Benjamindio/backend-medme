@@ -157,7 +157,8 @@ router.put('/updateUserInfo', (req, res) => {
   })
     .then(data => {
       if (data){
-          res.json({result: true, orders: data});
+          console.log(data)
+          res.json({result: true, orders: data.orders});
       }else{
         res.json({result: false, message : 'no orders saved'});
       }
