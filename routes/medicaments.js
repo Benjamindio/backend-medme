@@ -153,7 +153,7 @@ router.post('/suggestion', (req,res) => {
     Medicament.findOne({name:{$regex: new RegExp(req.body.name, 'gi')}})
     .then(data => {
         if(data) {
-            res.json({result: true, medicament:{name:data.name, price:data.price,medImage:data.image}})
+            res.json({result: true, medicament:{name:data.name, price:data.price,medImage:data.image, product_id:data.product_id,needOrdonnance:data.need_prescription }})
         } else {
             res.json({result:false, error: "no meds found"})
         }
